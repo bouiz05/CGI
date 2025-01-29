@@ -1,3 +1,5 @@
+django==5.1.5
+djangorestframework==3.15.2
 nltk==3.9.1
 spacy==3.8.4
 numpy==2.2.2
