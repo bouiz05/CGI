@@ -1,4 +1,4 @@
-## Installer python 3.10
+## Installer python 3.11
 
 Recommendation: Utiliser pyenv
 
