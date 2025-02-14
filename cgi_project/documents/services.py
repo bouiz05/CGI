@@ -17,7 +17,8 @@ def load_spacy_model(model_name):
         return spacy.load(model_name)
 
 # Chargement du modèle principal (ajuster selon vos besoins)
-nlp = load_spacy_model(SPACY_MODELS[0])
+for i in range(len(SPACY_MODELS)):
+    nlp = load_spacy_model(SPACY_MODELS[i])
 
 def create_document(document_data):
     """Crée et retourne une instance Document à partir des données validées"""
