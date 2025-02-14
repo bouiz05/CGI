@@ -1,36 +1,39 @@
 import spacy
 from pdfminer.high_level import extract_text
 from .models import Document
-from .anonymizer import process_document  # assuming you already have an anonymizer module
+from .anonymizer import process_document
 
-nlp = spacy.load("fr_core_news_sm")
+# Liste des modèles spaCy requis
+SPACY_MODELS = ["en_core_web_sm", "fr_core_news_sm"]
+
+def load_spacy_model(model_name):
+    """Charge un modèle spaCy en le téléchargeant si nécessaire"""
+    try:
+        return spacy.load(model_name)
+    except OSError:
+        print(f"Téléchargement du modèle spaCy '{model_name}'...")
+        from spacy.cli import download
+        download(model_name)
+        return spacy.load(model_name)
+
+# Chargement du modèle principal (ajuster selon vos besoins)
+nlp = load_spacy_model(SPACY_MODELS[0])
 
 def create_document(document_data):
-    """
-    Create and return a Document instance from the validated data.
-    """
+    """Crée et retourne une instance Document à partir des données validées"""
     document = Document.objects.create(**document_data)
     return document
 
 def extract_text_from_pdf(document_file):
-    """
-    Extract text from a PDF file and return it.
-    """
-    text = extract_text(document_file)
-    return text
+    """Extrait le texte d'un fichier PDF et le retourne"""
+    return extract_text(document_file)
 
 def extract_names_from_text(text):
-    """
-    Extract names from the text using spaCy and return them.
-    """
+    """Extrait les noms du texte avec spaCy"""
     doc = nlp(text)
-    names = [ent.text for ent in doc.ents if ent.label_ in ['PER', 'PERSON']]
-    return names
+    return [ent.text for ent in doc.ents if ent.label_ in ['PER', 'PERSON']]
 
 def extract_names_from_document(document_instance):
-    """
-    Extract names from the document and return them.
-    """
+    """Extrait les noms d'un document"""
     text = extract_text_from_pdf(document_instance.file.path)
-    names = extract_names_from_text(text)
-    return names
+    return extract_names_from_text(text)
