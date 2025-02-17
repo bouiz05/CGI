@@ -8,7 +8,7 @@ import re
 SPACY_MODELS = ["en_core_web_sm", "fr_core_news_sm"]
 # Expressions régulières
 EMAIL_REGEX = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b"
-PHONE_FR_REGEX = r"(?:\+33|0)[1-9](?:[-.\s]?\d{2}){4}"
+PHONE_FR_REGEX = r"(?:\+1\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}"
 
 # Fonction de validation
 def is_full_name(text):
@@ -38,7 +38,20 @@ def extract_text_from_pdf(document_file):
     return extract_text(document_file)
 
 def extract_names_from_text(text):
-    """Version améliorée avec détection des emails/numéros"""
+    # Utilisation combinée des modèles
+    names = []
+    for lang, nlp in nlp_models.items():
+        doc = nlp(text)
+        names += [
+            ent.text.strip() 
+            for ent in doc.ents 
+            if ent.label_ in ['PER', 'PERSON'] and is_full_name(ent.text)
+        ]
+    
+    # Détection manuelle des noms en capitale
+    for word in text.split():
+        if word.istitle() and is_full_name(word) and word not in names:
+            names.append(word)    
     # Détection des entités
     doc = nlp(text)
     names = [
