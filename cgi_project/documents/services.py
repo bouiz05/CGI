@@ -2,12 +2,22 @@ import spacy
 from pdfminer.high_level import extract_text
 from .models import Document
 from .anonymizer import process_document
+import re
 
 # Liste des modèles spaCy requis
 SPACY_MODELS = ["en_core_web_sm", "fr_core_news_sm"]
+# Expressions régulières
+EMAIL_REGEX = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b"
+PHONE_FR_REGEX = r"(?:\+1\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}"
+
+# Fonction de validation
+def is_full_name(text):
+    parts = text.split()
+    return len(parts) >= 2 and all(any(c.isalpha() for c in part) for part in parts)
+
 
 def load_spacy_model(model_name):
-    """Charge un modèle spaCy en le téléchargeant si nécessaire"""
+
     try:
         return spacy.load(model_name)
     except OSError:
@@ -16,25 +26,83 @@ def load_spacy_model(model_name):
         download(model_name)
         return spacy.load(model_name)
 
-# Chargement du modèle principal (ajuster selon vos besoins)
-for i in range(len(SPACY_MODELS)):
-    nlp = load_spacy_model(SPACY_MODELS[i])
+# Chargement de tous les modèles choisies
+for i in SPACY_MODELS:
+    nlp = load_spacy_model(i)
 
 def create_document(document_data):
-    """Crée et retourne une instance Document à partir des données validées"""
     document = Document.objects.create(**document_data)
     return document
 
 def extract_text_from_pdf(document_file):
-    """Extrait le texte d'un fichier PDF et le retourne"""
     return extract_text(document_file)
 
 def extract_names_from_text(text):
-    """Extrait les noms du texte avec spaCy"""
+    # Utilisation combinée des modèles
+    names = []
+    for lang, nlp in nlp_models.items():
+        doc = nlp(text)
+        names += [
+            ent.text.strip() 
+            for ent in doc.ents 
+            if ent.label_ in ['PER', 'PERSON'] and is_full_name(ent.text)
+        ]
+    
+    # Détection manuelle des noms en capitale
+    for word in text.split():
+        if word.istitle() and is_full_name(word) and word not in names:
+            names.append(word)    
+    # Détection des entités
     doc = nlp(text)
-    return [ent.text for ent in doc.ents if ent.label_ in ['PER', 'PERSON']]
+    names = [
+        ent.text.strip() 
+        for ent in doc.ents 
+        if ent.label_ in ['PER', 'PERSON'] and is_full_name(ent.text)
+    ]
+    
+    # Détection des emails
+    emails = re.findall(EMAIL_REGEX, text)
+    
+    # Détection des numéros FR
+    phones = re.findall(PHONE_FR_REGEX, text)
+    
+    return {
+        "names": list(set(names)),
+        "emails": list(set(emails)),
+        "phones": [re.sub(r'\D', '', p) for p in phones]
+    }
+
+def extract_names_from_text(text):
+    """Version améliorée avec détection des emails/numéros"""
+    # Détection des entités
+    doc = nlp(text)
+    names = [
+        ent.text.strip() 
+        for ent in doc.ents 
+        if ent.label_ in ['PER', 'PERSON'] and is_full_name(ent.text)
+    ]
+    
+    # Détection des emails
+    emails = re.findall(EMAIL_REGEX, text)
+    
+    # Détection des numéros FR
+    phones = re.findall(PHONE_FR_REGEX, text)
+    
+    return {
+        "names": list(set(names)),
+        "emails": list(set(emails)),
+        "phones": [re.sub(r'\D', '', p) for p in phones]
+    }
 
 def extract_names_from_document(document_instance):
-    """Extrait les noms d'un document"""
-    text = extract_text_from_pdf(document_instance.file.path)
-    return extract_names_from_text(text)
+    """Version améliorée avec gestion d'erreurs"""
+    try:
+        text = extract_text_from_pdf(document_instance.file.path)
+        return extract_names_from_text(text)
+    except Exception as e:
+        print(f"Erreur lors du traitement: {e}")
+        return {
+            "names": [],
+            "emails": [],
+            "phones": []
+        }
