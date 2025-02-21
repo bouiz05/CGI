@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Document
-from .services import create_document, extract_names_from_document
+from .services import create_document, extract_names_from_text
 
 class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,7 +18,7 @@ class ExtractNamesSerializer(serializers.ModelSerializer):
         fields = ('id', 'names')
 
     def get_names(self, obj):
-        return extract_names_from_document(obj)
+        return extract_names_from_text(obj)
 
 
 # class DocumentAnonymizationSerializer(serializers.ModelSerializer):

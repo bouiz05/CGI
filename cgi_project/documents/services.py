@@ -70,6 +70,7 @@ def extract_names_from_text(text):
         "names": list(set(names)),
         "emails": list(set(emails)),
         "phones": [re.sub(r'\D', '', p) for p in phones]
+        #TODO: adresse
     }
 
 def extract_names_from_text(text):
