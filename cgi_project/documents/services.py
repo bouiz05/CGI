@@ -69,8 +69,9 @@ def extract_names_from_text(text):
     return {
         "names": list(set(names)),
         "emails": list(set(emails)),
-        "phones": [re.sub(r'\D', '', p) for p in phones]
-        #TODO: adresse
+        "phones": [re.sub(r'\D', '', p) for p in phones],
+        "adress": []#TODO: adresse
+
     }
 
 def extract_names_from_text(text):
@@ -92,7 +93,8 @@ def extract_names_from_text(text):
     return {
         "names": list(set(names)),
         "emails": list(set(emails)),
-        "phones": [re.sub(r'\D', '', p) for p in phones]
+        "phones": [re.sub(r'\D', '', p) for p in phones],
+        "adress": []#TODO: adresse
     }
 
 def extract_names_from_document(document_instance):
@@ -105,5 +107,7 @@ def extract_names_from_document(document_instance):
         return {
             "names": [],
             "emails": [],
-            "phones": []
+            "phones": [],
+            "adress": []#TODO: adresse
+
         }
