@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myapp',
     'rest_framework',
-    'documents'
+    'documents',
+    'extraction'
 ]
 
 # settings.py
@@ -132,3 +133,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+OPENAI_API_KEY='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'
+
+LLAMA_CLOUD_API_KEY='llx-NejmIQ0O4WmaEpnazqrUZuyxotDyCDMeVGX9OHmVKCDmonkv'
+

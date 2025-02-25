@@ -20,4 +20,8 @@ urlpatterns = [
     path('<pk>/extract-names/', DocumentViewSet.as_view({
         'get': 'extract_names'
     }), name='document-extract-names'),
+
+    path('<pk>/download-anonymized/', DocumentViewSet.as_view({
+        'get': 'download_anonymized'
+    }), name='document-download-anonymized'),
 ]
