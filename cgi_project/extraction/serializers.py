@@ -13,7 +13,7 @@ class DocumentExtractionSerializer(serializers.Serializer):
         return value
     
     def validate_file(self, value):
-        supported_extensions = ('.pdf', '.png', '.jpg', '.jpeg')
+        supported_extensions = ('.pdf', '.png', '.jpg', '.jpeg', '.docx', '.doc')
 
         if not value.name.endswith(supported_extensions):
             raise serializers.ValidationError("Unsupported file format")
