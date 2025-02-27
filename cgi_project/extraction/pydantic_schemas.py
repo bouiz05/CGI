@@ -7,4 +7,4 @@ class Candidate(BaseModel):
     adress: Optional[str]
 
 class CandidateSpreadSheet(BaseModel):
-    students: List[Candidate]
+    candidates: List[Candidate]

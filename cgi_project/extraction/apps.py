@@ -7,9 +7,9 @@ class ExtractionConfig(AppConfig):
 
     def ready(self):
         from .extractable_content_definitions import (
-            STUDENTS_EXTRACTION
+            CANDIDATES_EXTRACTION
         )
         from .extractable_content_registry import ExtractableContentRegistry
 
         # Register all document types
-        ExtractableContentRegistry.register(STUDENTS_EXTRACTION)
+        ExtractableContentRegistry.register(CANDIDATES_EXTRACTION)

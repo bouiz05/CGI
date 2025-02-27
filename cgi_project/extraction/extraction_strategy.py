@@ -20,7 +20,7 @@ class LlamaParseStrategy(ExtractionStrategy):
         content = self.parser.parse(file.read(), file.name)
 
         response = self.client.beta.chat.completions.parse(
-                model="gpt-4o-2024-08-06",
+                model="gpt-4o",
                 messages=[
                     {
                         "role": "system", 

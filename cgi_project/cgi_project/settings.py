@@ -11,16 +11,24 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / '.env')
+
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+LLAMA_CLOUD_API_KEY = os.getenv('LLAMA_CLOUD_API_KEY')
+
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)gs#2sxont*jus-espju1u&9ubr8fyf(%zzv$0pb#5bip46((r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -134,7 +142,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-OPENAI_API_KEY='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'
-
-LLAMA_CLOUD_API_KEY='llx-NejmIQ0O4WmaEpnazqrUZuyxotDyCDMeVGX9OHmVKCDmonkv'
 

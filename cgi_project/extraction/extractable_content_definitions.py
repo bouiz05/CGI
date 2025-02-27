@@ -6,7 +6,7 @@ from .prompts import (
     EXTRACTION_PROMPT,
 )
 
-STUDENTS_EXTRACTION = ExtractableContent(
+CANDIDATES_EXTRACTION = ExtractableContent(
     type="extract_names_adress",
     prompt=EXTRACTION_PROMPT,
     schema=CandidateSpreadSheet,
