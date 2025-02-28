@@ -24,7 +24,7 @@ cd cgi_project
 ```
 
 
-### Environnement virtuel
+### Environnement virtuel (optionnel)
 
 #### Créer un environnement virtuel
 
@@ -88,22 +88,13 @@ Le serveur sera accessible à l'adresse suivante : [http://127.0.0.1:8000/](http
 ### 2. Accéder à l'API
 Si vous utilisez Django REST Framework, l'API sera disponible à l'adresse suivante : [http://127.0.0.1:8000/myapp/test/](http://127.0.0.1:8000/myapp/test/).
 
-### 3. Gérer les fichiers statiques (en production)
-En production, collectez les fichiers statiques avec :
-
-```bash
-python manage.py collectstatic
-```
-
 ## Manipulation avec Postman
 
 Pour manipuler l’application, une vidéo de démonstration est disponible, déposé sur le Team de l’équipe 3, dans la section Fichiers.
 
-Voici les 3 requêtes à utiliser sur Postman :
--	POST : http://127.0.0.1:8000/token/
-- Pour les 2 prochaines requêtes, ajouter dans Header une variable Authorization appelée Bearer {{token}}
+Voici les 2 requêtes à utiliser sur Postman :
 -	POST: http://localhost:8000/documents/
--	GET: http://localhost:8000/documents/ID_ICI_À_METTRE/extract-names/
+-	GET: http://localhost:8000/documents/DOCUMENT_ID_ICI_À_METTRE/extract-names/
 - Pour tester un CV, plusieurs sont disponible dans la section pdf du repo : CGI\cgi_project\documents\pdf
 
 
