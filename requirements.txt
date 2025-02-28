@@ -1,5 +1,7 @@
 django==5.1.5
 djangorestframework==3.15.2
-nltk==3.9.1
+djangorestframework-simplejwt==5.4.0
 spacy==3.8.4
-numpy==2.2.2
+pdfminer.six==20240706
+chardet==5.2.0
+pyap==0.3.1
