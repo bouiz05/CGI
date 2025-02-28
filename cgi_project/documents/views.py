@@ -8,19 +8,10 @@ from .serializers import DocumentSerializer
 from .services import extract_names_from_document
 
 class DocumentViewSet(viewsets.ModelViewSet):
-    """
-    Handles:
-    - CRUD for Document model
-    - A custom method 'extract_names'
-    """
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
 
     def extract_names(self, request, pk=None):
-        """
-        Custom method to extract names from the Document at <pk>.
-        Called via GET /documents/<pk>/extract-names/
-        """
         try:
             document = self.get_queryset().get(pk=pk)
         except Document.DoesNotExist:

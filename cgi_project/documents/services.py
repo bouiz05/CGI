@@ -8,30 +8,23 @@ import chardet
 from docx import Document as DocxDocument
 
 
-# Liste des modèles spaCy requis
 SPACY_MODEL = "fr_core_news_sm"
 
-# Expressions régulières
 EMAIL_REGEX = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b"
 PHONE_FR_REGEX = r"(?:\+1\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}"
 
 
 def detect_addresses(text):
-    # Détection des adresses avec pyap
-    addresses = pyap.parse(text, country="CA")  # 'CA' pour le Canada
-
-    # Liste pour stocker les adresses détectées
+    addresses = pyap.parse(text, country="CA")  
     detected_addresses = []
 
     for address in addresses:
-        # Extraire les composants de l'adresse
         street = f"{address.street_number} {address.street_name}"
         city = address.city
         state = address.region1
         postal_code = address.postal_code
         country = address.country_id
 
-        # Formater l'adresse complète
         full_address = f"{street}, {city}, {state} {postal_code}, {country}"
         detected_addresses.append(full_address)
 
@@ -50,7 +43,6 @@ def load_spacy_model(model_name=SPACY_MODEL):
         download(model_name)
         return spacy.load(model_name)
 
-# Load spaCy model
 nlp = load_spacy_model()
 
 def create_document(document_data):
@@ -75,7 +67,6 @@ def extract_text_from_docx(docx_path):
     return "\n".join(full_text)
 
 def extract_names_from_text(text):
-    """Extrait les noms, emails, téléphones et adresses d'un texte."""
     doc=nlp(text)
     names = [
         ent.text.strip() 
@@ -83,13 +74,10 @@ def extract_names_from_text(text):
         if ent.label_ in ['PER', 'PERSON'] and is_full_name(ent.text)
         ]
     
-    # Détection des emails
     emails = re.findall(EMAIL_REGEX, text)
     
-    # Détection des numéros FR
     phones = re.findall(PHONE_FR_REGEX, text)
     
-    # Détection des adresses
     addresses = detect_addresses(text)
     
     return {
@@ -109,7 +97,6 @@ def extract_text_from_file(file_path):
         raise ValueError(f"Unsupported file extension: {extension}")
 
 def extract_names_from_document(document_instance):
-    """Extracts info from either PDF or DOCX, etc."""
     try:
         text = extract_text_from_file(document_instance.file.path)
         return extract_names_from_text(text)
