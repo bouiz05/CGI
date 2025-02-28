@@ -5,6 +5,7 @@ from .anonymizer import process_document
 import re
 import pyap
 import chardet
+from docx import Document as DocxDocument
 
 
 # Liste des modèles spaCy requis
@@ -66,6 +67,13 @@ def extract_text_from_pdf(pdf_path):
         print(f"Erreur avec pdfminer : {e}")
         return None
 
+def extract_text_from_docx(docx_path):
+    doc = DocxDocument(docx_path)
+    full_text = []
+    for para in doc.paragraphs:
+        full_text.append(para.text)
+    return "\n".join(full_text)
+
 def extract_names_from_text(text):
     """Extrait les noms, emails, téléphones et adresses d'un texte."""
     doc=nlp(text)
@@ -91,15 +99,22 @@ def extract_names_from_text(text):
         "addresses": list(set(addresses))
     }
 
+def extract_text_from_file(file_path):
+    extension = file_path.lower().split('.')[-1]
+    if extension == 'pdf':
+        return extract_text_from_pdf(file_path)
+    elif extension == 'docx':
+        return extract_text_from_docx(file_path)
+    else:
+        raise ValueError(f"Unsupported file extension: {extension}")
+
 def extract_names_from_document(document_instance):
-    """Extrait les informations d'un document PDF avec gestion d'erreurs."""
+    """Extracts info from either PDF or DOCX, etc."""
     try:
-        # Extraction du texte depuis le PDF
-        text = extract_text_from_pdf(document_instance.file.path)
-        # Extraction des informations
+        text = extract_text_from_file(document_instance.file.path)
         return extract_names_from_text(text)
     except Exception as e:
-        print(f"Erreur lors du traitement du document: {e}")
+        print(f"Error processing document: {e}")
         return {
             "names": [],
             "emails": [],

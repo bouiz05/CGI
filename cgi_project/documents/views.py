@@ -15,7 +15,6 @@ class DocumentViewSet(viewsets.ModelViewSet):
     """
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
-    permission_classes = [IsAuthenticated]
 
     def extract_names(self, request, pk=None):
         """
