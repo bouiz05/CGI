@@ -3,7 +3,6 @@ from pdfminer.high_level import extract_text
 from .models import Document
 from .anonymizer import process_document
 import re
-import chardet
 import pyap
 
 

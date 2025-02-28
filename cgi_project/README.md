@@ -24,10 +24,27 @@ cd CGI
 ```
 
 
-### 2. Activer l'environnement virtuel
-Activez l'environnement virtuel en fonction de votre système d'exploitation :
+### Environnement virtuel
+
+#### Créer un environnement virtuel
+
+Il faut s'assurer d'utiliser la bonne version de python (3.11.7)
+
+> Windows
+
+```cmd
+python3 -m venv venv
+```
+
+> Mac/linux
+
+```bash
+python -m venv venv
+```
+
 
 - **Windows (PowerShell)** :
+  
   ```powershell
   .\venv\Scripts\Activate
   ```
@@ -41,11 +58,20 @@ Activez l'environnement virtuel en fonction de votre système d'exploitation :
   source venv/bin/activate
   ```
 
+#### Installer les requirements
+
+Ainsi pour installer l'ensemble des packages il suffit d'exécuter:
+
+```bash
+pip install -r requirements.txt
+```
+
+
 ### 3. Installer les dépendances
 Installez les dépendances requises :
 
 ```bash
-pip install django djangorestframework djangorestframework-simplejwt spacy pdfminer.six
+pip install django djangorestframework djangorestframework-simplejwt spacy pdfminer.six pyap re
 ```
 
 ### 4. Configurer les variables d'environnement
@@ -59,9 +85,10 @@ DATABASE_URL=sqlite:///db.sqlite3
 ```
 
 ### 5. Appliquer les migrations
-Exécutez les migrations pour configurer la base de données :
+Exécutez les migrations pour configurer la base de données:
 
 ```bash
+cd cgi_project
 python manage.py migrate
 ```
 
@@ -147,5 +174,4 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
   ```bash
   python -m pip install --upgrade pip
   ```
-
-N'hésitez pas à personnaliser ce fichier `README.md` en fonction des spécificités de votre projet.
+- Contactez-nous sur la Canal Team, équipe 3, pour tout autre problème!
