@@ -71,7 +71,7 @@ pip install -r requirements.txt
 Installez les dépendances requises :
 
 ```bash
-pip install django djangorestframework djangorestframework-simplejwt spacy pdfminer.six pyap re
+pip install django djangorestframework djangorestframework-simplejwt spacy pdfminer.six pyap re chardet
 ```
 
 ### 4. Configurer les variables d'environnement
@@ -119,6 +119,18 @@ En production, collectez les fichiers statiques avec :
 ```bash
 python manage.py collectstatic
 ```
+
+## Manipulation avec Postman
+
+Pour manipuler l’application, une vidéo de démonstration est disponible, déposé sur le Team de l’équipe 3, dans la section Fichiers.
+
+Voici les 3 requêtes à utiliser sur Postman :
+-	POST : http://127.0.0.1:8000/token/
+- Pour les 2 prochaines requêtes, ajouter dans Header une variable Authorization appelée Bearer {{token}}
+-	POST: http://localhost:8000/documents/
+-	GET: http://localhost:8000/documents/ID_ICI_À_METTRE/extract-names/
+- Pour tester un CV, plusieurs sont disponible dans la section pdf du repo : CGI\cgi_project\documents\pdf
+
 
 ## Résolution des erreurs courantes
 

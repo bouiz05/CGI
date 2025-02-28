@@ -4,6 +4,7 @@ from .models import Document
 from .anonymizer import process_document
 import re
 import pyap
+import chardet
 
 
 # Liste des modèles spaCy requis
