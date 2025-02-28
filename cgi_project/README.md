@@ -20,7 +20,7 @@ Si vous avez accès au dépôt Git, clonez-le avec la commande suivante :
 
 ```bash
 git clone https://github.com/bouiz05/CGI.git
-cd CGI
+cd cgi_project
 ```
 
 
@@ -66,39 +66,14 @@ Ainsi pour installer l'ensemble des packages il suffit d'exécuter:
 pip install -r requirements.txt
 ```
 
-
-### 3. Installer les dépendances
-Installez les dépendances requises :
-
-```bash
-pip install django djangorestframework djangorestframework-simplejwt spacy pdfminer.six pyap re chardet
-```
-
-### 4. Configurer les variables d'environnement
-Créez un fichier `.env` à la racine du projet et configurez-le selon vos besoins. Par exemple :
-
-```env
-SECRET_KEY=votre-secret-key
-DEBUG=True
-ALLOWED_HOSTS=localhost,127.0.0.1
-DATABASE_URL=sqlite:///db.sqlite3
-```
-
-### 5. Appliquer les migrations
+### Appliquer les migrations
 Exécutez les migrations pour configurer la base de données:
 
 ```bash
 cd cgi_project
 python manage.py migrate
+python manage.py makemigrations
 ```
-
-### 6. Créer un superutilisateur (optionnel)
-Pour accéder à l'interface d'administration Django, créez un superutilisateur :
-
-```bash
-python manage.py createsuperuser
-```
-
 ## Exécution
 
 ### 1. Démarrer le serveur de développement
